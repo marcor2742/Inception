@@ -1,6 +1,10 @@
-sleep 10 # Wait for the database to be ready
+set -e
 
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
+
+	wp core download --allow-root \
+					--path='/var/www/wordpress'
+
 
 	wp config create	--allow-root \
 					--dbname=$SQL_DATABASE \
@@ -26,4 +30,6 @@ fi
 
 mkdir -p /run/php
 
-/usr/sbin/php-fpm7.3 -F
+echo "Starting PHP-FPM"
+
+/usr/sbin/php-fpm7.4 -F

@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx
+    volumes:
+      - /home/marco/data/web:/usr/share/nginx/html
+    ports:
+      - "8080:80"
+
+  db:
+    image: postgres
+    volumes:
+      - /home/marco/data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: example

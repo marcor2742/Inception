@@ -12,4 +12,6 @@ COPY tools/mysql.sh /
 
 RUN chmod +x /mysql.sh
 
+EXPOSE 3306
+
 CMD [ "sh","/mysql.sh" ]

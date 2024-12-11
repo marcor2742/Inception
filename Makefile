@@ -12,6 +12,7 @@ stop:
 
 down:
 	docker compose -f $(COMPOSE_FILE) down
+	
 build:
 	docker compose -f $(COMPOSE_FILE) build
 

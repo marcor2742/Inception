@@ -35,6 +35,11 @@ services:
     ports:
     - "443:443"
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+      interval: 5s
+      timeout: 50s
+      retries: 30
 
   wordpress:
     container_name: wordpress

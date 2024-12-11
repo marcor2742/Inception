@@ -1,9 +1,9 @@
 FROM debian:bullseye
 
 RUN apt update && apt upgrade -y && \
-    apt-get install mariadb-server -y && \
-    apt install -y vim \
-                    curl
+    apt-get install -y mariadb-server \
+						vim \
+                    	curl \
 	&& apt clean
 
 EXPOSE 3306
@@ -14,5 +14,4 @@ COPY tools/mysql.sh /
 
 RUN chmod +x /mysql.sh
 
-
-CMD [ "sh","/mysql.sh" ]
+ENTRYPOINT [ "sh", "/mysql.sh" ]

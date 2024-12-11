@@ -11,8 +11,6 @@ services:
     volumes:
     - mariadb:/var/lib/mysql
     restart: unless-stopped
-    expose:
-    - "3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -55,13 +53,11 @@ services:
       mariadb:
         condition: service_healthy
     restart: on-failure
-    expose: 
-    - "9000"
     healthcheck:
       test: timeout 5s bash -c ':> /dev/tcp/127.0.0.1/9000' || exit 1
       interval: 5s
       timeout: 50s
-      retries: 3
+      retries: 30
 
 volumes:
   wordpress:

@@ -11,9 +11,19 @@ stop:
 	docker compose -f $(COMPOSE_FILE) stop
 
 down:
-	docker compose -f $(COMPOSE_FILE) down -v
-
+	docker compose -f $(COMPOSE_FILE) down
 build:
 	docker compose -f $(COMPOSE_FILE) build
+
+clean: down
+	docker system prune -a -f
+	docker volume prune -a -f
+	docker image prune -f
+	docker network prune -f
+
+fclean: clean
+	sudo rm -fr $(HOME)/data
+
+re: fclean all
 
 .PHONY: up down stop build

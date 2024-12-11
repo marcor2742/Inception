@@ -13,10 +13,10 @@
 #
 
 user                    = mysql
-pid-file                = /run/mysqld/mysqld.pid
+pid-file                = /var/run/mysqld/mysqld.pid
 basedir                 = /usr
 datadir                 = /var/lib/mysql
-socket                  = /run/mysqld/mysqld.sock
+socket                  = /var/run/mysqld/mysqld.sock
 port                    = 3306
 tmpdir                  = /tmp
 lc-messages-dir         = /usr/share/mysql
@@ -25,11 +25,11 @@ skip-external-locking
 
 # Broken reverse DNS slows down connections considerably and name resolve is
 # safe to skip if there are no "host by domain name" access grants
-#skip-name-resolve
+skip-name-resolve
 
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address            = *
+bind-address            = 0.0.0.0
 
 #
 # * Fine Tuning

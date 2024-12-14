@@ -88,10 +88,10 @@ services:
     - wordpress:/var/www/html
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "service", "nginx", "status"]
-      interval: 5s
-      timeout: 50s
-      retries: 30
+      test: ["CMD", "nc", "-z", "localhost", "9001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     
 
 volumes:

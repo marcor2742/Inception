@@ -2,6 +2,7 @@ FROM debian:bullseye
 
 RUN apt-get update && apt-get upgrade -y && \
 	apt-get install -y wget \
+						netcat \
 						vim \
 						php7.4 \
 						php7.4-fpm \

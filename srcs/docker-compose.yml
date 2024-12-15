@@ -113,7 +113,21 @@ services:
       timeout: 10s
       retries: 3
 
-
+  static:
+    container_name: static
+    build:
+      context: requirements/bonus/static
+      dockerfile: Dockerfile
+    networks:
+    - inception
+    ports:
+    - "3000:3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   wordpress:

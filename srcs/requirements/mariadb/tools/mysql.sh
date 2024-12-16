@@ -1,35 +1,5 @@
 #!/bin/bash
 
-# if [ ! -d "/run/mysqld" ]; then
-#     mkdir -p /run/mysqld
-# fi
-
-# if [ ! -d "/var/lib/mysql/mysql" ]; then
-#     mysql_install_db --user=root --datadir=/var/lib/mysql
-# fi
-
-# mkdir -p /var/run/mysqld
-# chown -R mysql:mysql /var/run/mysqld
-# chown -R mysql:mysql /var/lib/mysql
-
-# mysqld_safe --pid-file=/run/mysqld/mysqld.pid &
-# pid="$!"
-
-# # mysql=( mysql --protocol=socket -uroot )
-
-# for i in {30..0}; do
-#     if mysqladmin ping --silent; then
-#         break
-#     fi
-#     echo 'MySQL init process in progress...'
-#     sleep 1
-# done
-
-# if [ "$i" = 0 ]; then
-#     echo >&2 'MySQL init process failed.'
-#     exit 1
-# fi
-
 set -e
 
 service mariadb start
@@ -45,8 +15,3 @@ mariadb -e "FLUSH PRIVILEGES;"
 kill `cat /var/run/mysqld/mysqld.pid`
 
 mariadbd
-# mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
-# echo 6
-
-# Riavviare MySQL
-# exec mysqld_safe

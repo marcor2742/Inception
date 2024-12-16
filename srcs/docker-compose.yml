@@ -128,10 +128,10 @@ services:
       retries: 3
 
   netdata:
+    container_name: netdata
     build:
       context: ./requirements/bonus/netdata
       dockerfile: Dockerfile
-    container_name: netdata
     networks:
       - inception
     volumes:
@@ -143,7 +143,6 @@ services:
     depends_on:
       - wordpress
     restart: always
-
 
 volumes:
   wordpress:

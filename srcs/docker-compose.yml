@@ -59,6 +59,62 @@ services:
       timeout: 50s
       retries: 30
 
+  redis:
+    container_name: redis
+    networks:
+    - inception
+    build:
+      context: requirements/bonus/redis
+      dockerfile: Dockerfile
+    env_file: .env
+    restart: unless-stopped
+    ports:
+    - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 50s
+      retries: 30
+
+  adminer:
+    container_name: adminer
+    networks:
+    - inception
+    build:
+      context: requirements/bonus/adminer
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
+    - wordpress:/var/www/html
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "9001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+  ftp:
+    container_name: ftp
+    networks:
+    - inception
+    build:
+      context: requirements/bonus/ftp
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
+    - wordpress:/var/www/wordpress
+    ports:
+    - "21:21"
+    - "21000-21010:21000-21010"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "21"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+
 volumes:
   wordpress:
     driver: local

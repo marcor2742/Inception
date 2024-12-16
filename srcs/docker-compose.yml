@@ -120,14 +120,30 @@ services:
       dockerfile: Dockerfile
     networks:
     - inception
-    ports:
-    - "3000:3000"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "3000"]
       interval: 30s
       timeout: 10s
       retries: 3
+
+  netdata:
+    build:
+      context: ./requirements/bonus/netdata
+      dockerfile: Dockerfile
+    container_name: netdata
+    networks:
+      - inception
+    volumes:
+      - ~/data/wordpress:/var/lib/netdata/vol1
+      - ~/data/mariadb:/var/lib/netdata/vol2
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - wordpress
+    restart: always
+
 
 volumes:
   wordpress:

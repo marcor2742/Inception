@@ -5,7 +5,7 @@ set -e
 if [ ! -f /etc/ftp/ssl/private_key.key ]; then
     mkdir -p /etc/ftp/ssl
 
-    openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout /etc/ftp/ssl/private_key.key -out /etc/ftp/ssl/public_key.crt -subj "/C=IT/ST=IT/L=FLORENCE/O=42/OU=1337/CN=gduranti"
+    openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout /etc/ftp/ssl/private_key.key -out /etc/ftp/ssl/public_key.crt -subj "/C=IT/ST=IT/L=FLORENCE/O=42/OU=1337/CN=mruggier"
 fi
 
 while ! nc -z wordpress 9000; do

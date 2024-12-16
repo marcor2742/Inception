@@ -21,7 +21,7 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2 {
+h2 {
     color: #333;
 }
 
@@ -32,14 +32,4 @@ ul {
 
 li {
     margin-bottom: 1rem;
-}
-
-footer {
-    text-align: center;
-    padding: 1rem 0;
-    background-color: #333;
-    color: #fff;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
 }

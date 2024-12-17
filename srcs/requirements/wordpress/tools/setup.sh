@@ -1,16 +1,16 @@
 set -e
 
-if [ ! -f /var/www/wordpress/wp-config.php ]; then
+if [ ! -f /var/www/html/wp-config.php ]; then
 
 	wp core download --allow-root \
-					--path='/var/www/wordpress'
+					--path='/var/www/html'
 
 
 	wp config create	--allow-root \
 					--dbname=$SQL_DATABASE \
 					--dbuser=$SQL_USER \
 					--dbpass=$SQL_PASSWORD \
-					--dbhost=mariadb:3306 --path='/var/www/wordpress'
+					--dbhost=mariadb:3306 --path='/var/www/html'
 						
 	wp core install --allow-root \
 					--url=$WP_URL \
@@ -18,13 +18,13 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 					--admin_user=$WP_USER \
 					--admin_password=$WP_PASSWORD \
 					--admin_email=$WP_EMAIL \
-					--path='/var/www/wordpress'
+					--path='/var/www/html'
 
 	wp user create $WP_USER2 $WP_EMAIL2 \
 					--role=editor \
 					--user_pass=$WP_PASSWORD2 \
 					--allow-root \
-					--path='/var/www/wordpress'
+					--path='/var/www/html'
 
 	wp config set WP_REDIS_HOST redis --add --allow-root
     wp config set WP_REDIS_PORT 6379 --add --allow-root

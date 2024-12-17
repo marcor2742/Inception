@@ -20,7 +20,7 @@ services:
   nginx:
     container_name: nginx
     volumes:
-    - wordpress:/var/www/wordpress
+    - wordpress:/var/www/html
     networks:
     - inception
     depends_on:
@@ -43,7 +43,7 @@ services:
     container_name: wordpress
     env_file: .env
     volumes:
-    - wordpress:/var/www/wordpress
+    - wordpress:/var/www/html
     networks:
     - inception
     build: 
@@ -102,7 +102,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     volumes:
-    - wordpress:/var/www/wordpress
+    - wordpress:/var/www/html
     ports:
     - "21:21"
     - "21000-21010:21000-21010"
@@ -134,15 +134,18 @@ services:
       dockerfile: Dockerfile
     networks:
       - inception
-    volumes:
-      - ~/data/wordpress:/var/lib/netdata/vol1
-      - ~/data/mariadb:/var/lib/netdata/vol2
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "19999:19999"
+    env_file:
+      - .env
     depends_on:
       - wordpress
-    restart: always
+      - mariadb
+      - nginx
+      - redis
+      - adminer
+      - ftp
+    restart: unless-stopped
 
 volumes:
   wordpress:

@@ -1,13 +1,19 @@
 FROM debian:bullseye
 
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y netdata \
-						netcat \
-						procps \
-						vim
+RUN apt update -y && apt upgrade -y
 
-RUN sed -i 's/bind socket to IP = 127.0.0.1/bind socket to IP = 0.0.0.0/' /etc/netdata/netdata.conf
+RUN apt-get install -y wget default-mysql-client curl
 
-EXPOSE 19999
+RUN wget -O /tmp/netdata-kickstart.sh https://get.netdata.cloud/kickstart.sh && sh /tmp/netdata-kickstart.sh --no-updates --stable-channel --disable-telemetry
 
-CMD [ "/usr/sbin/netdata", "-D"]
+# COPY ./conf/netdata.conf /etc/netdata/netdata.conf
+
+# COPY ./conf/stream.conf /etc/netdata/stream.conf
+
+# CMD ["netdata", "-D"]
+
+COPY ./tools/script.sh /
+
+RUN chmod +x /script.sh
+
+CMD ["/script.sh"]

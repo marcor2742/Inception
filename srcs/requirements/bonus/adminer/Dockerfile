@@ -10,6 +10,8 @@ RUN apt-get update && apt-get upgrade -y && \
 						adminer \
 	&& apt-get clean
 
+RUN wget "http://www.adminer.org/latest.php" -O /var/www/html/adminer.php
+
 RUN mkdir -p /run/php && chown www-data:www-data /run/php
 
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf

@@ -20,9 +20,9 @@ else
 
     echo  $FTP_USER:$FTP_PASSWORD | /usr/sbin/chpasswd
 
-    chmod -R 755 /var/www/wordpress
+    chmod -R 755 /var/www/html
 
-    chown -R $FTP_USER:$FTP_USER /var/www/wordpress
+    chown -R $FTP_USER:$FTP_USER /var/www/html
 
     echo "${FTP_USER}" >> /etc/vsftpd.userlist
 

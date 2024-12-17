@@ -13,7 +13,7 @@ RUN apt-get update && apt-get upgrade -y && \
 
 # RUN cd /var/www && tar -xzvf wordpress-6.7.1.tar.gz && rm wordpress-6.7.1.tar.gz
 
-# RUN	chown -R root:root /var/www/wordpress
+# RUN	chown -R root:root /var/www/html
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -P /usr/local/bin
 RUN chmod +x /usr/local/bin/wp-cli.phar && mv /usr/local/bin/wp-cli.phar /usr/local/bin/wp
@@ -23,9 +23,9 @@ COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 COPY tools/setup.sh /tmp
 RUN chmod +x /tmp/setup.sh
 
-RUN mkdir -p /var/www/wordpress
+RUN mkdir -p /var/www/html
 
-WORKDIR /var/www/wordpress
+WORKDIR /var/www/html
 
 EXPOSE 9000
 

@@ -1,6 +1,7 @@
 services:
 
   mariadb:
+    image: mariadb
     container_name: mariadb
     networks:
     - inception
@@ -10,7 +11,7 @@ services:
     env_file: .env
     volumes:
     - mariadb:/var/lib/mysql
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -18,6 +19,7 @@ services:
       retries: 30
 
   nginx:
+    image: nginx
     container_name: nginx
     volumes:
     - wordpress:/var/www/html
@@ -40,6 +42,7 @@ services:
       retries: 30
 
   wordpress:
+    image: wordpress
     container_name: wordpress
     env_file: .env
     volumes:
@@ -60,6 +63,7 @@ services:
       retries: 30
 
   redis:
+    image: redis
     container_name: redis
     networks:
     - inception
@@ -68,8 +72,6 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     restart: unless-stopped
-    ports:
-    - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -77,6 +79,7 @@ services:
       retries: 30
 
   adminer:
+    image: adminer
     container_name: adminer
     networks:
     - inception
@@ -94,9 +97,12 @@ services:
       retries: 3
     
   ftp:
+    image: ftp
     container_name: ftp
     networks:
     - inception
+    depends_on:
+      - wordpress
     build:
       context: requirements/bonus/ftp
       dockerfile: Dockerfile
@@ -114,6 +120,7 @@ services:
       retries: 3
 
   static:
+    image: static
     container_name: static
     build:
       context: requirements/bonus/static
@@ -128,41 +135,26 @@ services:
       retries: 3
 
   netdata:
-    image: netdata/netdata:stable
+    image: netdata
     container_name: netdata
+    build: 
+      context: requirements/bonus/netdata
+      dockerfile: Dockerfile
+      args:
+        NETDATA_CLAIM_TOKEN: ${NETDATA_CLAIM_TOKEN}
+        NETDATA_CLAIM_ROOMS: ${NETDATA_CLAIM_ROOMS}
+        NETDATA_CLAIM_URL: ${NETDATA_CLAIM_URL}
     networks:
-    - inception
-    cap_add:
-      - SYS_PTRACE
-      - SYS_ADMIN
-    security_opt:
-      - apparmor:unconfined
+      - inception
     volumes:
-      - netdataconfig:/etc/netdata
-      - netdatalib:/var/lib/netdata
-      - netdatacache:/var/cache/netdata
-      - /etc/passwd:/host/etc/passwd:ro
-      - /etc/group:/host/etc/group:ro
-      - /etc/localtime:/etc/localtime:ro
+      - wordpress:/var/lib/netdata/vol1
+      - mariadb:/var/lib/netdata/vol2
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
-      - /etc/os-release:/host/etc/os-release:ro
-      - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - NETDATA_CLAIM_TOKEN=${NETDATA_CLAIM_TOKEN}
-      - NETDATA_CLAIM_URL=${NETDATA_CLAIM_URL}
-      - NETDATA_CLAIM_ROOMS=${NETDATA_CLAIM_ROOMS}
-    env_file:
-      - .env
-    depends_on:
-      - wordpress
-      - mariadb
-      - nginx
-      - redis
-      - adminer
-      - ftp
-    restart: unless-stopped
+    ports:
+      - "19999:19999"
+    restart: always
 
 volumes:
   wordpress:
@@ -177,9 +169,6 @@ volumes:
       type: 'none' 
       o: 'bind'
       device: '~/data/mariadb'
-  netdataconfig:
-  netdatalib:
-  netdatacache:
 
 networks:
   inception:

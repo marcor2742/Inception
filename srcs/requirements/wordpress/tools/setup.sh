@@ -21,7 +21,6 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 					--path='/var/www/html'
 
 	wp user create $WP_USER2 $WP_EMAIL2 \
-					--role=editor \
 					--user_pass=$WP_PASSWORD2 \
 					--allow-root \
 					--path='/var/www/html'

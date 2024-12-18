@@ -152,6 +152,7 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - netdata:/var/cache/netdata
     ports:
       - "19999:19999"
     restart: always
@@ -169,6 +170,12 @@ volumes:
       type: 'none' 
       o: 'bind'
       device: '~/data/mariadb'
+  netdata:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/data/netdata'
 
 networks:
   inception:

@@ -5,6 +5,7 @@ all: up
 up:
 	mkdir -p ~/data/wordpress
 	mkdir -p ~/data/mariadb
+	mkdir -p ~/data/netdata
 	docker compose -f $(COMPOSE_FILE) up -d --build
 
 stop:

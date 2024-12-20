@@ -156,6 +156,11 @@ services:
     ports:
       - "19999:19999"
     restart: always
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "19999"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   wordpress:
@@ -179,4 +184,5 @@ volumes:
 
 networks:
   inception:
+    name: inception
     driver: bridge
